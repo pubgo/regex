@@ -1,4 +1,6 @@
-module github.com/mingrammer/commonregex
+module github.com/pubgo/regex
+
+go 1.16
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

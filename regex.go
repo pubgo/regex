@@ -1,4 +1,4 @@
-package commonregex
+package regex
 
 import "regexp"
 
