@@ -6,3 +6,4 @@ import (
 )
 
 var logs = log.New(os.Stderr, "regex", log.LstdFlags|log.Llongfile)
+var Debug bool

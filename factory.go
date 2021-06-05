@@ -1,7 +1,6 @@
 package regex
 
 import (
-	"log"
 	"regexp"
 )
 
@@ -19,12 +18,27 @@ func Register(name string, reg *Regex) {
 		logs.Fatalf("%s already exists\n", name)
 	}
 
+	defer func() {
+		if err := recover(); err != nil {
+			logs.Fatalf("%v \n", err)
+		}
+	}()
+
+	reg.reg = reg.Build()
 	factories[name] = reg
+}
+
+func Has(name string) bool {
+	var reg, ok = factories[name]
+	return ok || reg.reg == nil
 }
 
 func Get(name string) *regexp.Regexp {
 	var reg, ok = factories[name]
 	if !ok {
+		if Debug {
+			logs.Printf("%s not found", name)
+		}
 		return nil
 	}
 
@@ -34,7 +48,7 @@ func Get(name string) *regexp.Regexp {
 func Each(fn func(name string, reg *Regex)) {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Fatalf("%v \n", err)
+			logs.Fatalf("%v \n", err)
 		}
 	}()
 
