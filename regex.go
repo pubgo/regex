@@ -77,8 +77,7 @@ func match(text string, reg string) []string {
 		return nil
 	}
 
-	parsed := regex.FindAllString(text, -1)
-	return parsed
+	return regex.FindAllString(text, -1)
 }
 
 // Date finds all date strings

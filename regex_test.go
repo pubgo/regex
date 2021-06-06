@@ -1,18 +1,19 @@
-package regex
+package regex_test
 
 import (
 	"testing"
 
+	"github.com/pubgo/regex"
 	"github.com/stretchr/testify/assert"
 )
 
 func init() {
-	Debug = true
+	regex.Debug = true
 }
 
 func TestCommonRegex_Date(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"3-23-17",
@@ -25,14 +26,14 @@ func TestCommonRegex_Date(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := Date(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.Date(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_Time(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"09:45",
@@ -45,14 +46,14 @@ func TestCommonRegex_Time(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := Time(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.Time(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_Phones(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"12345678900",
@@ -69,14 +70,14 @@ func TestCommonRegex_Phones(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := Phones(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.Phones(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_PhonesWithExts(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"(523)222-8888 ext 527",
@@ -89,33 +90,33 @@ func TestCommonRegex_PhonesWithExts(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := PhonesWithExts(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.PhonesWithExts(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_Links(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"www.google.com",
-		"http://www.google.com",
+		"https://www.google.com",
 		"www.google.com/?query=dog",
 		"sub.example.com",
-		"http://www.google.com/%&#/?q=dog",
+		"https://www.google.com/%&#/?q=dog",
 		"google.com",
 	}
 
 	for _, test := range tests {
-		parsed := Links(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.Links(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_Emails(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"john.smith@gmail.com",
@@ -129,19 +130,19 @@ func TestCommonRegex_Emails(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := Emails(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.Emails(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := Emails(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.Emails(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_IPv4s(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"127.0.0.1",
@@ -152,14 +153,14 @@ func TestCommonRegex_IPv4s(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := IPs(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.IPs(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_IPv6s(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"fe80:0000:0000:0000:0204:61ff:fe9d:f156",
@@ -171,14 +172,14 @@ func TestCommonRegex_IPv6s(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := IPv6s(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.IPv6s(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_IPs(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"127.0.0.1",
@@ -195,14 +196,14 @@ func TestCommonRegex_IPs(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := IPs(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.IPs(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_NotKnownPorts(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"1024",
@@ -221,19 +222,19 @@ func TestCommonRegex_NotKnownPorts(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := NotKnownPorts(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.NotKnownPorts(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := Emails(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.Emails(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_Prices(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"$1.23",
@@ -248,19 +249,19 @@ func TestCommonRegex_Prices(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := Prices(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.Prices(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := Prices(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.Prices(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_HexColors(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"#fff",
@@ -273,19 +274,19 @@ func TestCommonRegex_HexColors(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := HexColors(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.HexColors(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := HexColors(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.HexColors(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_CreditCards(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"0000-0000-0000-0000",
@@ -295,14 +296,14 @@ func TestCommonRegex_CreditCards(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := CreditCards(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.CreditCards(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_BtcAddresses(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"1LgqButDNV2rVHe9DATt6WqD8tKZEKvaK2",
@@ -319,19 +320,19 @@ func TestCommonRegex_BtcAddresses(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := BtcAddresses(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.BtcAddresses(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := BtcAddresses(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.BtcAddresses(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_StreetAddresses(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"101 main st.",
@@ -345,19 +346,19 @@ func TestCommonRegex_StreetAddresses(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := StreetAddresses(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.StreetAddresses(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := StreetAddresses(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.StreetAddresses(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_ZipCodes(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"02540",
@@ -370,19 +371,19 @@ func TestCommonRegex_ZipCodes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := ZipCodes(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.ZipCodes(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := ZipCodes(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.ZipCodes(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_PoBoxes(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"PO Box 123456",
@@ -394,19 +395,19 @@ func TestCommonRegex_PoBoxes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := PoBoxes(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.PoBoxes(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := PoBoxes(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.PoBoxes(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_SSNs(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"000-00-0000",
@@ -416,14 +417,14 @@ func TestCommonRegex_SSNs(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := SSNs(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.SSNs(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 }
 
 func TestCommonRegex_MD5Hexes(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"b5ab01fad5a008d436f76aafc896f9c6",
@@ -439,19 +440,19 @@ func TestCommonRegex_MD5Hexes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := MD5Hexes(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.MD5Hexes(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := MD5Hexes(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.MD5Hexes(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_SHA1Hexes(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"b5ab01fad5a008d436f76aafc896f9c6abcd1234",
@@ -467,19 +468,19 @@ func TestCommonRegex_SHA1Hexes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := SHA1Hexes(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.SHA1Hexes(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := SHA1Hexes(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.SHA1Hexes(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_SHA256Hexes(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"3f4146a1d0b5dac26562ff7dc6248573f4e996cf764a0f517318ff398dcfa792",
@@ -495,19 +496,19 @@ func TestCommonRegex_SHA256Hexes(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := SHA256Hexes(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.SHA256Hexes(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := SHA256Hexes(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.SHA256Hexes(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_GUIDs(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"00000000-0000-0000-0000-000000000000",
@@ -528,19 +529,19 @@ func TestCommonRegex_GUIDs(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := GUIDs(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.GUIDs(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := GUIDs(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.GUIDs(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_ISBN13s(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"978-3-16-148410-0",
@@ -555,19 +556,19 @@ func TestCommonRegex_ISBN13s(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := ISBN13s(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.ISBN13s(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := ISBN13s(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.ISBN13s(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_ISBN10s(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"1-56619-909-3",
@@ -582,19 +583,19 @@ func TestCommonRegex_ISBN10s(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := ISBN10s(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.ISBN10s(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := ISBN10s(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.ISBN10s(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_VISACreditCards(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"4111 1111 1111 1111",
@@ -608,19 +609,19 @@ func TestCommonRegex_VISACreditCards(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := VISACreditCards(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.VISACreditCards(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := VISACreditCards(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.VISACreditCards(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_MCCreditCards(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"5500 0000 0000 0004",
@@ -635,19 +636,19 @@ func TestCommonRegex_MCCreditCards(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := MCCreditCards(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.MCCreditCards(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := MCCreditCards(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.MCCreditCards(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_MACAddresses(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"f8:2f:a4:fe:76:d2",
@@ -661,19 +662,19 @@ func TestCommonRegex_MACAddresses(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := MACAddresses(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.MACAddresses(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := MACAddresses(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.MACAddresses(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_IBANs(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"FR1420041010050500013M02606",
@@ -687,19 +688,19 @@ func TestCommonRegex_IBANs(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := IBANs(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.IBANs(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := IBANs(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.IBANs(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
 
 func TestCommonRegex_GitRepos(t *testing.T) {
 	t.Parallel()
-	assert := assert.New(t)
+	should := assert.New(t)
 
 	tests := []string{
 		"https://github.com/mingrammer/commonregex.git",
@@ -712,12 +713,12 @@ func TestCommonRegex_GitRepos(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		parsed := GitRepos(test)
-		assert.Equal([]string{test}, parsed, "they should be matched")
+		parsed := regex.GitRepos(test)
+		should.Equal([]string{test}, parsed, "they should be matched")
 	}
 
 	for _, test := range failingTests {
-		parsed := GitRepos(test)
-		assert.NotEqual([]string{test}, parsed, "they should not be matched")
+		parsed := regex.GitRepos(test)
+		should.NotEqual([]string{test}, parsed, "they should not be matched")
 	}
 }
